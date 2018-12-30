@@ -89,12 +89,51 @@ func nilInterface() {
     }
 }
 
+// An empty interface may hold values of any types.
 func describe(i interface{}) {
     fmt.Printf("(%v, %T)\n", i, i)
+}
+
+func typeAssertion() {
+    var i interface {} = "string"
+
+    // This statement asserts that the interface value i holds the concrete type T
+    // and assigns the underlying T value to the variable t
+    s := i.(string)
+
+    fmt.Println(s)
+
+    // To test whether an interface value holds a specific type, a type assertion
+    // can return two values: the underlying value and a boolean value that
+    // reports whether the assertion succeeded
+    s, ok := i.(string)
+    fmt.Println(s, ok)
+
+}
+
+func printType(i interface {}) {
+    switch v := i.(type) {
+    case int:
+        fmt.Printf("Twice %v is %v\n", v, v*2)
+    case string:
+        fmt.Printf("%q is %v bytes long\n", v, len(v))
+    default:
+        fmt.Printf("I don't know about type %T!\n", v)
+    }
+}
+
+func typeSwitches() {
+    printType(21)
+    printType("hello")
+    printType(true)
 }
 
 func main() {
     interfacesCast()
 
     nilInterface()
+
+    typeAssertion()
+
+    typeSwitches()
 }
